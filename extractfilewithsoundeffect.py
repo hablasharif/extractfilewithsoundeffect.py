@@ -1,11 +1,23 @@
 from pydub import AudioSegment
 from pydub.generators import Sine
 from pydub.playback import play
+import requests
+from bs4 import BeautifulSoup
 import streamlit as st
 
 # Function to extract title from a URL
 def extract_title(url):
-    # Your existing code for extracting the title goes here
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, "html.parser")
+        title_tag = soup.find("title")
+        if title_tag:
+            return title_tag.string
+        else:
+            return "Title not found on the page"
+    except Exception as e:
+        return str(e)
 
 # Streamlit UI
 st.title("URL Title Extractor")
