@@ -1,0 +1,3 @@
+pydub
+Beautifulsoup4
+requests
